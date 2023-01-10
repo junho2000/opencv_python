@@ -26,6 +26,6 @@ def onMouse(event, x, y, flags, param): #마우스 이벤트 핸들러 함수, x
 
 img = np.zeros((512,512,3), np.uint8) + 255
 cv2.imshow('img',img)
-cv2.setMouseCallback('img', onMouse, [img]) #윈도우 이름, 마우스이벤트핸들러, [img]->param[0] 그냥 img
+cv2.setMouseCallback('img', onMouse, [img]) #윈도우 이름, 마우스이벤트핸들러, [img]->param[0] 그냥 img로 넣어도 됨 
 cv2.waitKey()
 cv2.destroyAllWindows()

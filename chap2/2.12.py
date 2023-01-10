@@ -17,8 +17,7 @@ def updateFrame(k): #k는 애니메이션 프레임 번호 0,1,2 ...
   if retval:
     im.set_array(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
-ani = animation.FuncAnimation(fig, updateFrame, init_func=init, 
-                              interval=50) #프레임 50밀리초
+ani = animation.FuncAnimation(fig, updateFrame, init_func=init, interval=50) #프레임 50밀리초
 plt.show()
 if cap.isOpened():
   cap.release()
