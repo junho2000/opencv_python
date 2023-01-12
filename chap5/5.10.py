@@ -12,7 +12,7 @@ cv2.randn(pts1, mean=(128), stddev=(10)) #난수 생성 평균 128, 표편 10
 cv2.randn(pts2, mean=(110), stddev=(20)) #난수 생성 평균 110, 표편 20
 
 H1 = cv2.calcHist(images=[pts1], channels=[0], mask=None, histSize=[256], ranges=[0,256])
-# cv2.normalize(H1, H1, 1, 0, cv2.NORM_L1) 
+# cv2.normalize(H1, H1, 1, 0, cv2.NORM_L1) #정규화해도 같은 EMD를 갖는다
 
 H2 = cv2.calcHist(images=[pts2], channels=[0], mask=None, histSize=[256], ranges=[0,256])
 # cv2.normalize(H2, H2, 1, 0, cv2.NORM_L1)
@@ -32,14 +32,23 @@ for i in range(S1.shape[0]):
 
 
 #두 분포가 주어질 때, 하나의 분포를 다른 하나의 분포로 변경하는데 드는 최소 비용 계산(같은 분포는 EMD 0)
-emd1, lowerBound, flow = cv2.EMD(S1, S2, cv2.DIST_L1) #cv2.DIST_L1 distance = |x1 - x2| + |y1 - y2|
+#빠름..
+#lowerbound는 두 분포의 가중치(히스토그램 값) 합이 다르면 계산하지 않는다
+#거리계산 타입
+emd1, lowerBound1, flow1 = cv2.EMD(S1, S2, cv2.DIST_L1) #cv2.DIST_L1 distance = |x1 - x2| + |y1 - y2|
 print('EMD(S1, S2, DIST_L1) =', emd1)
+print('lowerbound1 =', lowerBound1)
+print('flow1 =', flow1)
 
-emd2, lowerBound, flow = cv2.EMD(S1, S2, cv2.DIST_L2) #cv2.DIST_L2 distance = sqrt((x1 - x2)^2 + (y1 - y2)^2)
+emd2, lowerBound2, flow2 = cv2.EMD(S1, S2, cv2.DIST_L2) #cv2.DIST_L2 distance = sqrt((x1 - x2)^2 + (y1 - y2)^2)
 print('EMD(S1, S2, DIST_L2) =', emd2)
+print('lowerbound2 =', lowerBound2)
+print('flow2 =', flow2)
 
-emd3, lowerBound, flow = cv2.EMD(S1, S2, cv2.DIST_C) #cv2.DIST_C distance = max(|x1 - x2|, |y1 - y2|)
+emd3, lowerBound3, flow3 = cv2.EMD(S1, S2, cv2.DIST_C) #cv2.DIST_C distance = max(|x1 - x2|, |y1 - y2|)
 print('EMD(S1, S2, DIST_C) =', emd3)
+print('lowerbound3 =', lowerBound3)
+print('flow3 =', flow3)
 
 plt.plot(H1, color='r', label='H1')
 plt.plot(H2, color='b', label='H2')

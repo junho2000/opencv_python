@@ -3,7 +3,7 @@ import numpy as np
 src = cv2.imread('/Users/kimjunho/Desktop/python_workspace/pictures/lenna.png', cv2.IMREAD_GRAYSCALE)
 cv2.imshow('src',src)
 
-ret, dst = cv2.threshold(src, 200, 255 , cv2.THRESH_BINARY) #thresh=200, max_val=255
+ret, dst = cv2.threshold(src, 200, 255 , cv2.THRESH_BINARY) #threshold=200, max_val=255
 print('ret =',ret) #ret = 200
 cv2.imshow('dst',dst) 
 
