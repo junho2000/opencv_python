@@ -3,7 +3,7 @@ import numpy as np
 
 src = cv2.imread('/Users/kimjunho/Desktop/python_workspace/pictures/lenna.png', cv2.IMREAD_GRAYSCALE)
 
-def logFilter(ksize = 7): #가우시안 함수에 대한 2차 미분에의한 라플라시안을 계산하여 윈도우 필터를 생성(수학적으로는 잘 모르겠음)
+def logFilter(ksize = 7): #가우시안 함수에 대한 2차미분에 대한 라플라시안을 계산하여 윈도우 필터를 생성(수학적으로는 잘 모르겠음)
     k2 = ksize // 2
     sigma = 0.3 * (k2 - 1) + 0.8 #필터의 크기
     print('sigma =', sigma)
@@ -37,7 +37,7 @@ def zeroCrossing2(lap, thresh=0.01):
             if pos > 0 and neg > 0:
                 Z[y,x] = 255    
     return Z
-edgeZ = zeroCrossing2(LoG)
+edgeZ = zeroCrossing2(LoG) #LoG필터링한 것을 다시 ZeroCrossing함수에 넣음(결과로 2줄이 생김)
 cv2.imshow('LoG with Zero Crossing2', edgeZ)
 cv2.waitKey()
 cv2.destroyAllWindows()

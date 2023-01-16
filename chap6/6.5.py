@@ -2,11 +2,11 @@ import cv2
 import numpy as np
 
 src = cv2.imread('/Users/kimjunho/Desktop/python_workspace/pictures/lenna.png', cv2.IMREAD_GRAYSCALE)
-blur = cv2.GaussianBlur(src, ksize=(7,7), sigmaX=0.0)
+blur = cv2.GaussianBlur(src, ksize=(7,7), sigmaX=0.0) #2차미분의 오차를 줄이기 위해 가우시안 블러링
 cv2.imshow('src', src)
 cv2.imshow('blur', blur)
 
-lap = cv2.Laplacian(src, cv2.CV_32F)
+lap = cv2.Laplacian(src, cv2.CV_32F) #라플라시안 필터링
 minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(lap)
 print('lap :', minVal, maxVal, minLoc, maxLoc)
 print(lap)
