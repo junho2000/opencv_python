@@ -32,8 +32,9 @@ while True:
         print('len(contours) =', len(contours))
         markers[:,:] = 0
         for i, cnt in enumerate(contours):
-            cv2.drawContours(markers, [cnt], 0, i+1, -1) #-1 윤곽선 내부를 채움
+            cv2.drawContours(markers, [cnt], 0, i+1, -1) #-1 윤곽선 내부를 (i+1) 채움
         cv2.watershed(src, markers)
+        #경계의 라벨은  -1, 확실한 객체엔 0이상의 마커, 불확실할땐 0
         
         dst = src.copy()
         dst[markers == -1] = [0,0,255] #경계선을 빨간색으로 변경
@@ -45,5 +46,6 @@ while True:
         
         dst = cv2.addWeighted(src, 0.4, dst, 0.6, 0) #srcx0.4 + dstx0.6의 가중치로 화면에 띄움
         cv2.imshow('dst', dst)
+        cv2.imshow('mask',mask)
 cv2.waitKey()
 cv2.destroyAllWindows()

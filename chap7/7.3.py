@@ -14,6 +14,7 @@ print('lines.shape =', lines.shape) #4, 1, 2 -> 4개의 직선의 양 끝점(x1,
 
 for line in lines:
     x1, y1, x2, y2 = line[0]
+    print('x1,y1,x2,y2 =', x1, y1, x2, y2)
     cv2.line(img, (x1,y1), (x2,y2), (0,0,255), 1)
 
 cv2.imshow('edges', edges)

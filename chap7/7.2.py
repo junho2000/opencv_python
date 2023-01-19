@@ -20,10 +20,11 @@ for line in lines:
     s = np.sin(theta)
     x0 = c * rho #x0, y0는 원점에서 직선과 직각으로 만나는 좌표
     y0 = s * rho
-    x1 = int(x0 + 1000 * (-s)) #단위벡터를 통해 스케일링
-    y1 = int(y0 + 1000 * (c))
-    x2 = int(x0 - 1000 * (-s))
-    y2 = int(y0 - 1000 * (c))
+    print('x0, y0, c, s =', x0, y0, c, s)
+    x1 = int(x0 + 500 * (-s)) #단위벡터를 통해 스케일링
+    y1 = int(y0 + 500 * (c))
+    x2 = int(x0 - 500 * (-s))
+    y2 = int(y0 - 500 * (c))
     cv2.line(img, (x1,y1), (x2,y2), (0,0,255), 1) #시작점, 끝점, 색, 두께
 
 cv2.imshow('rec', img)
