@@ -1,23 +1,5 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import torch
-
-def visualizePixel(src):
-    im = torch.Tensor(src)
-    plt.figure(figsize=[10,10])
-    plt.imshow(im,cmap="gray")
-    plt.colorbar()
-    
-    for i in range(src.shape[0]): #28x28
-        for j in range(src.shape[1]):
-            plt.text(j,i,int(im[i,j].item()),
-                    horizontalalignment="center", #item으로 tensor라고 나오는 것 지우고 숫자위치를 center라고 지정
-                    color="k" if im[i,j] > torch.max(im)/1.5 else "w") #숫자가보이도록 설정 (검은색배경엔 흰색 흰색배경엔 검은색)
-            
-    plt.xticks([]) #x축 눈금제거
-    plt.yticks([]) #y축 눈금제거
-    plt.show()
 
 def findLocalMaxima(src): #팽창과 침식의 모폴로지 연산으로 지역 극대값의 좌표를 point배열에 검출하여 반환
     kernel = cv2.getStructuringElement(shape=cv2.MORPH_RECT, ksize=(11,11))
@@ -32,20 +14,18 @@ def findLocalMaxima(src): #팽창과 침식의 모폴로지 연산으로 지역 
     points[:,[0,1]] = points[:,[1,0]] #열, 행 순서로 바꿈
     return points
 
-src = np.full((512//16,512//16,3), (0,0,0), np.uint8)
-cv2.rectangle(src, (128//16,128//16), (384//16,384//16), (255,255,255), -1)
-cv2.rectangle(src, (64//16,64//16), (256//16,256//16), (255,255,255), -1)
+src = np.full((512,512,3), (0,0,0), np.uint8)
+cv2.rectangle(src, (128,128), (384,384), (255,255,255), -1)
+cv2.rectangle(src, (64,64), (256,256), (255,255,255), -1)
 gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
 
 res = cv2.preCornerDetect(gray, ksize=3) #Sobel 미분 연산자를 이용하여 계산
-ret, res2 = cv2.threshold(np.abs(res), 0.1, 0, cv2.THRESH_TOZERO) #threshold 0.1보다 작은 값은 0으로 변경
-
+ret, res2 = cv2.threshold(np.abs(res), 1, 0, cv2.THRESH_TOZERO) #threshold 0.1보다 작은 값은 0으로 변경
 corners = findLocalMaxima(res2)
 print('corners.shape =', corners.shape)
 
 res = cv2.normalize(np.abs(res), None, 0, 255, cv2.NORM_MINMAX) #코너점 주위에 여러개의 값이 생겨서 지역 극대값을 찾아야함
 cv2.imshow('normalized |result| of preCornerDetect1', res)
-visualizePixel(res2)
 
 dst = src.copy()
 for x, y, in corners:

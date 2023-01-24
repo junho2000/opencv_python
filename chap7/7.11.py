@@ -33,7 +33,7 @@ for i, cnt in enumerate(contours):
 # markers = cv2.normalize(markers, None, 0, 255, cv2.NORM_MINMAX) #contour를 잘그리긴 함
 # cv2.imshow('markers', markers)
 dst = img.copy()
-cv2.watershed(img, markers)
+cv2.watershed(img, markers) #뭔가 여기서 안됨
 
 dst[markers == -1] = [0,0,255] #경계선 빨간색 지정
 for i in range(len(contours)): #랜덤 색깔 지정

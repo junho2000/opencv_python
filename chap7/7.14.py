@@ -4,6 +4,7 @@ import numpy as np
 src = cv2.imread('/Users/kimjunho/Desktop/python_workspace/pictures/hand.jpg')
 hsv = cv2.cvtColor(src, cv2.COLOR_BGR2HSV)
 
+#K개의 군집을 만듬, 랜덤으로 평균값지정후 군집에다가 데이터 넣음, 군집에서 다시 평균값 계산 후, 다시 군집에다가 집어넣음 (반복)
 data = src.reshape((-1,3)).astype(np.float32) #클러스터링을 위한 데이터(행) 한줄로 쭉핌
 K = 2 #클러스터의 개수(군집 수)
 term_crit = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0) #종료조건(각 클러스터의 중심이 오차 이내로 움직이면 종료, 최대 반복횟수) 최대 10번 반복하고 1픽셀 이하로 움직이면 종료 
