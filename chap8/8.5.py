@@ -20,12 +20,12 @@ print('centroids.shape =', centroids.shape) #배경을 포함하기 떄문에 9x
 print('centroids =', centroids)
 centroids = np.float32(centroids)
 dst2 = src.copy()
-for x, y in centroids: #배경 제외
+for x, y in centroids[1:]: #배경 제외
     cv2.circle(dst2, (int(x), int(y)), 5, (0,0,255), 2)
 cv2.imshow('dst2', dst2)
 
 term_crit = (cv2.TERM_CRITERIA_MAX_ITER + cv2.TERM_CRITERIA_EPS, 10, 0.001)
-corners = cv2.cornerSubPix(gray, centroids, (5,5), (-1,-1), term_crit)
+corners = cv2.cornerSubPix(gray, centroids, (5,5), (-1,-1), term_crit) #코너점의 위치를 부화소 수준에서 다시 계산
 print('corners =', corners)
 
 corners = np.round(corners) #반올림

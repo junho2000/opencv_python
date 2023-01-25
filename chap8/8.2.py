@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 
-
 src = np.full((512,512,3), (0,0,0), np.uint8)
 cv2.rectangle(src, (128,128), (384,384), (255,255,255), -1)
 cv2.rectangle(src, (64,64), (256,256), (255,255,255), -1)
