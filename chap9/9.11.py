@@ -1,6 +1,10 @@
 import cv2
 import numpy as np
 
+#SIFT는 이미지의 Scale (크기) 및 Rotation (회전)에 Robust한 (= 영향을 받지 않는) 특징점을 추출하는 알고리즘이고 계산량이 많고 정확도가 높다.
+#하지만 오래걸려서 임베디드에는 적합하지 않음, 임베디드에 사용한다면 ORB가 좋을듯
+
+
 def distance(f1, f2): #Euclidean distance
     x1, y1 = f1.pt
     x2, y2 = f2.pt
@@ -42,7 +46,7 @@ print('des =', des)
 
 dst = cv2.drawKeypoints(src, filtered_kp, None, color=(0,0,255))
 
-for f in filtered_kp:
+for f in filtered_kp: #show scale, gradient angle in SIFT
     x, y = f.pt
     size = f.size
     rect = ((x,y), (size, size), f.angle)
