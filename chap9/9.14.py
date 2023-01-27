@@ -15,7 +15,7 @@ print('len(kp2) =', len(kp2))
 flan = cv2.FlannBasedMatcher_create()
 matches = flan.radiusMatch(des1, des2, maxDistance=50)
 
-def draw_key2image(kp, img):
+def draw_key2image(kp, img): #img에 keypoint 좌표의 scale, angle을 표시
     x, y = kp.pt
     size = kp.size
     rect = ((x, y), (size, size), kp.angle)

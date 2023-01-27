@@ -32,16 +32,17 @@ dst = cv2.drawMatches(img1, kp1, img2, kp2, good_matches, None, flags=2)
 cv2.imshow('dst', dst)
 
 #5
-src1_pts = np.float32([ kp1[m.queryIdx].pt for m in good_matches])
-src2_pts = np.float32([ kp2[m.queryIdx].pt for m in good_matches])
+src1_pts = np.float32([kp1[m.queryIdx].pt for m in good_matches])
+src2_pts = np.float32([kp2[m.queryIdx].pt for m in good_matches])
 
 H, mask = cv2.findHomography(src1_pts, src2_pts, cv2.RANSAC, 3.0)
-mask_matches = mask.ravel().tolist()
+mask_matches = mask.ravel().tolist() #list(mask.flatten())
 
 #6
 h, w = img1.shape
 pts = np.float32([[0,0], [0,h-1], [w-1, h-1], [w-1,0]]).reshape(-1,1,2)
 pts2 = cv2.perspectiveTransform(pts, H)
+print('H =', H)
 src2 = cv2.polylines(src2, [np.int32(pts2)], True, (255,0,0), 2)
 
 draw_params = dict(matchColor=(0,255,0), singlePointColor=None, matchesMask=mask_matches, flags=2)
