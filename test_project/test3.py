@@ -1,9 +1,24 @@
 import cv2
 import numpy as np
-#1
+import cv2, pafy
+
+# 1
 cap = cv2.VideoCapture('/Users/kimjunho/Desktop/OpenCV_study/videos/test_video.mp4')   #비디오 객체 cap 생성
 if (not cap.isOpened()):
     print('Error opening video')
+
+# url = 'https://www.youtube.com/watch?v=YsPdvvixYfo&t=0s'
+# video = pafy.new(url)
+
+# print('title = ', video.title) # 영상 제목
+# print('video.rating = ', video.rating) # 별점
+# print('video.duration = ', video.duration) # 전체 길이
+
+# best = video.getbest() # 최적의 비디오 파일양식 정보
+# print('best.resolution', best.resolution)
+
+# cap = cv2.VideoCapture(best.url)
+
 
 ret, src = cap.read()
 h, w, c= src.shape
@@ -20,7 +35,7 @@ while True:
         break
     
     #세로 절반 아래, 가로 1/3~2/3  
-    roi = np.zeros((360,640,3), dtype=src.dtype)
+    roi = np.zeros((h//2,w//2,3), dtype=src.dtype)
     roi[:,:] = frame[h//2:h, w//4:w//4*3]
     
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
@@ -29,7 +44,7 @@ while True:
     
     #필요없는 부분 마스크
     edges[:h//8,:w//10] = 0
-    edges[:h//8,480:640] = 0
+    edges[:h//8,w//8*3:] = 0
     lines = cv2.HoughLinesP(edges, rho=1, theta=np.pi/180.0, threshold=30)
     
     for line in lines:
