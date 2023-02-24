@@ -1,31 +1,18 @@
 import cv2
 import numpy as np
-import cv2, pafy
 
 # 1
-cap = cv2.VideoCapture('/Users/kimjunho/Desktop/OpenCV_study/videos/test_video.mp4')   #비디오 객체 cap 생성
+cap = cv2.VideoCapture('/Users/kimjunho/Desktop/OpenCV_study/videos/circle_detect.mp4')   #비디오 객체 cap 생성
 if (not cap.isOpened()):
     print('Error opening video')
-
-# url = 'https://www.youtube.com/watch?v=YsPdvvixYfo&t=0s'
-# video = pafy.new(url)
-
-# print('title = ', video.title) # 영상 제목
-# print('video.rating = ', video.rating) # 별점
-# print('video.duration = ', video.duration) # 전체 길이
-
-# best = video.getbest() # 최적의 비디오 파일양식 정보
-# print('best.resolution', best.resolution)
-
-# cap = cv2.VideoCapture(best.url)
 
 
 ret, src = cap.read()
 h, w, c= src.shape
-roi = np.zeros(src.shape, dtype=src.dtype)
-roi[h//2:h, w//4:w//4*3] = src[h//2:h, w//4:w//4*3]
-print('frame.shape =', src.shape) #720 1280
-print('roi.shape =', roi.shape) #480 640
+roi = np.zeros((h//2, w//2 , 3), dtype=src.dtype)
+roi[:] = src[h//4:h//4*3, w//4:w//4*3]
+print('frame.shape =', src.shape) #1080, 1104, 3
+print('roi.shape =', roi.shape) #540, 552, 3
 
 cv2.imshow('roi', roi)
 
@@ -35,24 +22,23 @@ while True:
         break
     
     #세로 절반 아래, 가로 1/3~2/3  
-    roi = np.zeros((h//2,w//2,3), dtype=src.dtype)
-    roi[:,:] = frame[h//2:h, w//4:w//4*3]
-    
+    roi[:] = frame[h//4:h//4*3, w//4:w//4*3]
+
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    edges = cv2.Canny(gray, 100, 150)
-    # print('edges', edges.shape) 360 x 640
+    # blur_gray = cv2.GaussianBlur(gray, ksize=(7,7), sigmaX=0.0) #gaussian blur
     
-    #필요없는 부분 마스크
-    edges[:h//8,:w//10] = 0
-    edges[:h//8,w//8*3:] = 0
-    lines = cv2.HoughLinesP(edges, rho=1, theta=np.pi/180.0, threshold=30)
+    #검출 이미지, 검출 방법, 해상도 비율, 최소 거리, 캐니 엣지 임곗값, 중심 임곗값, 최소 반지름, 최대 반지름
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 600, param1 = 250, param2 = 10, minRadius = 50, maxRadius = 130)
     
-    for line in lines:
-        x1, y1, x2, y2 = line[0]
-        cv2.line(frame, (x1+w//4,y1+h//2), (x2+w//4,y2+h//2), (0,0,255), 3)
+    if circles.shape != (1,0,3):
+        circles = np.uint16(np.around(circles))
+
+    for i in circles[0,:]:
+        # cv2.circle(roi,(i[0],i[1]),i[2],(0,255,0),2)
+        cv2.circle(frame,(i[0]+h//4,i[1]+w//4),i[2],(0,255,0),2)
 
     cv2.imshow('frame', frame)
-    cv2.imshow('edges', edges)
+    cv2.imshow('roi', roi)
     
     key = cv2.waitKey(20)
     if key == 27:
