@@ -28,14 +28,14 @@ while True:
     # blur_gray = cv2.GaussianBlur(gray, ksize=(7,7), sigmaX=0.0) #gaussian blur
     
     #검출 이미지, 검출 방법, 해상도 비율, 최소 거리, 캐니 엣지 임곗값, 중심 임곗값, 최소 반지름, 최대 반지름
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 600, param1 = 250, param2 = 10, minRadius = 50, maxRadius = 130)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 600, param1 = 250, param2 = 10, minRadius = 30, maxRadius = 120)
     
-    if circles.shape != (1,0,3):
-        circles = np.uint16(np.around(circles))
-
-    for i in circles[0,:]:
-        # cv2.circle(roi,(i[0],i[1]),i[2],(0,255,0),2)
-        cv2.circle(frame,(i[0]+h//4,i[1]+w//4),i[2],(0,255,0),2)
+    if circles is not None:
+        circles = np.uint16(circles)
+        
+        for i in circles[0,:]:
+            # cv2.circle(roi,(i[0],i[1]),i[2],(0,255,0),2)
+            cv2.circle(frame,(i[0]+h//4,i[1]+w//4),i[2],(0,255,0),2)
 
     cv2.imshow('frame', frame)
     cv2.imshow('roi', roi)
