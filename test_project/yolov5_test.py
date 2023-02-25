@@ -4,7 +4,7 @@ import torch
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
 # Inference
-model('/Users/kimjunho/Desktop/OpenCV_study/videos/vtest.mp4')
+model('/Users/kimjunho/Desktop/OpenCV_study/pictures/lenna.png')
 
 # Results
 

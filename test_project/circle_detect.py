@@ -25,13 +25,13 @@ while True:
     roi[:] = frame[h//4:h//4*3, w//4:w//4*3]
 
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    # blur_gray = cv2.GaussianBlur(gray, ksize=(7,7), sigmaX=0.0) #gaussian blur
+    blur_gray = cv2.GaussianBlur(gray, ksize=(3,3), sigmaX=0.0) #gaussian blur
     
     #검출 이미지, 검출 방법, 해상도 비율, 최소 거리, 캐니 엣지 임곗값, 중심 임곗값, 최소 반지름, 최대 반지름
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 600, param1 = 250, param2 = 10, minRadius = 30, maxRadius = 120)
+    circles = cv2.HoughCircles(blur_gray, cv2.HOUGH_GRADIENT, 1, 600, param1 = 250, param2 = 10, minRadius = 40, maxRadius = 130)
     
     if circles is not None:
-        circles = np.uint16(circles)
+        circles = np.uint32(circles)
         
         for i in circles[0,:]:
             # cv2.circle(roi,(i[0],i[1]),i[2],(0,255,0),2)
