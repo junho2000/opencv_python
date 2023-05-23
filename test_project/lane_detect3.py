@@ -4,6 +4,7 @@ import numpy as np
 vidcap = cv2.VideoCapture("/Users/kimjunho/Desktop/OpenCV_study/videos/lane_detect_ex1.mp4")
 success, image = vidcap.read()
 print(image.shape)
+
 def nothing(x):
     pass
 

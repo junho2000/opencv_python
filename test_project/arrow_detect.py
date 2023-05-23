@@ -5,7 +5,7 @@ def f(x):
     # any operation
     pass
 
-cap = cv2.VideoCapture("/Users/kimjunho/Desktop/OpenCV_study/videos/arrow_sign.mp4")
+cap = cv2.VideoCapture(0)
 if (not cap.isOpened()):
     print('Error opening video')
     
