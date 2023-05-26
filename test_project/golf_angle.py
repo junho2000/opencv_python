@@ -14,9 +14,11 @@ def f(x):
     # any operation
     pass
 
-cap = cv2.VideoCapture('/Users/kimjunho/Desktop/OpenCV_study/videos/shuttle.mp4')
-if (not cap.isOpened()):
-    print('Error opening video')
+# cap = cv2.VideoCapture(0)
+# if (not cap.isOpened()):
+#     print('Error opening video')
+
+src = cv2.imread('/Users/kimjunho/Desktop/python_workspace/pictures/lenna.png')
     
 cv2.namedWindow("Trackbars")
 cv2.createTrackbar("L-H", "Trackbars", 142, 180, f)
@@ -34,7 +36,8 @@ cv2.setTrackbarPos("U-S", "Trackbars", 255)
 cv2.setTrackbarPos("U-V", "Trackbars", 255)
 
 while True:
-    _, frame = cap.read()
+    # _, frame = cap.read()
+    frame = cv2.imread('/Users/kimjunho/Desktop/OpenCV_study/pictures/bunker.jpeg')
     frame  = cv2.resize(frame, (600,400))
     height, width, _ = frame.shape
     mid = width // 2
@@ -56,10 +59,10 @@ while True:
     mask = cv2.erode(mask, kernel)
     # HSV color space mask
     
-    print(is_middle(mask))
+    # print(is_middle(mask))
     
-    for y in range(height):
-        mask[y,mid] = 255
+    # for y in range(height):
+    #     mask[y,mid] = 255
     
     cv2.imshow("Frame", frame)
     cv2.imshow("Mask", mask)
